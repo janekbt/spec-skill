@@ -44,12 +44,15 @@ where it runs every change, and works with any language or stack.
   before the code that passes it.
 - **Fresh eyes.** A fresh agent reads the proposal for open questions
   before you see it. Another one reviews the finished change from
-  `reviewer-prompt.md`, without the conversation. Fixes that change
-  behaviour, data or sync get a new fresh reviewer, round after round,
+  `reviewer-prompt.md`, without the conversation, while Claude Code's
+  `/code-review` looks for bugs in the diff. Fixes that change
+  behaviour, data or sync get both again, round after round,
   until no more fixes that change behaviour are needed.
 - **Simplify last.** After the review, `/simplify` makes the change
   shorter or clearer without changing what it does, so the review
-  checks what the code does and this step only how it is written.
+  checks what the code does and this step only how it is written. A
+  refactor too big for the change goes into the issue list under
+  "Deferred refactors".
 - **Smallest complete change.** [ponytail](https://github.com/DietrichGebert/ponytail)
   runs through every step and cuts what the need does not justify.
 - **One place for the state.** `tasks.md` in the change folder holds

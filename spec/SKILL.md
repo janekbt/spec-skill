@@ -173,6 +173,13 @@ instead, each with the brief plus one of its two focus lines (data and
 sync; completeness and rules). Two focuses find more than the same
 review twice.
 
+In parallel with that reviewer, run `/code-review` (Skill tool,
+`code-review`) on the change: start the reviewer agent first, then the
+skill while it runs. The reviewer checks the change against the specs
+and rules; `/code-review` looks for bugs in the diff itself. Both are
+the review, so a review step is done only when both are done, and the
+rules below apply to the findings of both.
+
 For each finding: check it against the code yourself. Fix what holds,
 one at a time, with a test where it is behaviour. A finding you reject
 gets one line in `tasks.md` (what, why) and is shown to the human. A
@@ -180,14 +187,15 @@ finding that would change behaviour, UI text or data beyond the approved
 proposal is a question for the human, not a fix.
 
 Fixes are code no reviewer saw. When the fixes after the review, or
-after the device test in step 7, change behaviour, data or sync, a
-fresh agent reviews only those: give it the list of fixes from
-`tasks.md`, the files and the brief, and fix what it finds the same
-way. Fixes to wording, comments or docs need no second look.
+after the device test in step 7, change behaviour, data or sync, both
+review again: a fresh agent reviews only those fixes (give it the list
+of fixes from `tasks.md`, the files and the brief), and `/code-review`
+runs again on the change in parallel. Fix what they find the same way.
+Fixes to wording, comments or docs need no second look.
 
 ### 5. Simplify
 
-Once the last reviewer has nothing left (the review of the fixes
+Once both reviewers have nothing left (the review of the fixes
 included), call the Skill tool with `simplify` on the change's diff
 against the base commit. It is its own step, after the review, so the
 review checks what the change does and this one only how it is written.
@@ -196,6 +204,9 @@ review checks what the change does and this one only how it is written.
   same expected values, same UI texts, same data. A suggestion that
   would change behaviour, data or UI text is dropped with one line in
   `tasks.md`, or brought to the human if it looks like a real bug.
+- A refactor it suggests that is too big for this change goes into the
+  issue list under "Deferred refactors": what, where, and the gain it
+  named, with the date and the change it came from.
 - Then run the whole suite and every linter `AGENTS.md` lists again,
   as in step 3. Red: find the cause first. A wrong simplification gets
   fixed or dropped; a test that only checked how the code was built (a
@@ -267,6 +278,8 @@ not approval either: reply with the test steps and wait.
 | "The other platform can follow later." | Every part that has the behaviour, in the same change, or a written reason the human approved. |
 | "The test passed first time, good." | Either it tests nothing or the behaviour existed. Find out which. |
 | "It built." | Stat the artifact. |
+| "Our reviewer covers it, /code-review can be skipped." | Both run, every review round, fix reviews too. |
+| "That refactor is out of scope, so it's gone." | Out of scope goes into "Deferred refactors", not nowhere. |
 | "The reviewer found nothing, so it's right." | The review is one check of several; step 7 still applies. |
 | "They said go earlier." | Approval covers what you showed. New scope needs a new go. |
 | "A lint suppression silences it." | Fix the cause. |
