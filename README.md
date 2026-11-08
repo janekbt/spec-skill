@@ -124,6 +124,9 @@ Ship to `main`.
 ## Issue list
 `ISSUES.md` (or: GitHub issues)
 
+Refactors `/simplify` suggests that are too big for a change go under
+"Deferred refactors" there (or: issues labelled `refactor`).
+
 ## Doc map
 | When this changes | Update |
 |---|---|
